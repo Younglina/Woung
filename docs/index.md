@@ -16,7 +16,7 @@ hero:
       text: 源码
       link: /api-examples
   image:
-    src: /woung.svg
+    src: /Woung.svg
     alt: Woung
 
 features:
