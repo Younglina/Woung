@@ -1,30 +1,15 @@
 <script setup>
-import '@toast-ui/editor/dist/toastui-editor.css';
-import Editor from '@toast-ui/editor';
 import { ref, onMounted } from 'vue';
+import { MdEditor } from 'md-editor-v3';
+import 'md-editor-v3/lib/style.css';
 
-const editor = ref('')
-
-onMounted(()=>{
-  editor.value = new Editor({
-  el: document.querySelector('#editor'),
-  height: '500px',
-  initialEditType: 'markdown',
-  previewStyle: 'vertical',
-  hooks: {
-    addImageBlobHook: customUpload
-  }
-});
-
-editor.value.getMarkdown();
-
-})
+const text = ref('# Hello Editor');
 
 function customUpload(file, callback) {
   console.log(file)
   const formData = new FormData();
-  formData.append('file', file);
-  formData.append('filename', Date.now() + '_' + file.name);
+  formData.append('file', file[0]);
+  formData.append('filename', Date.now() + '_' + file[0].name);
   // fetch('http://localhost:3001/api/upload', {
   fetch('http://121.40.220.158:3001/api/upload', {
     method: 'POST',
@@ -42,9 +27,7 @@ function customUpload(file, callback) {
   })
     .then(res => {
       // 处理解析后的数据
-      res.data.map(item => {
-        callback(item.url)
-      })
+      callback(res.data.map(item => item.url))
     })
     .catch(error => {
       // 处理捕获的错误
@@ -57,6 +40,7 @@ const handleLogin = () => {
   // fetch('http://localhost:3001/api/login', {
     fetch('http://121.40.220.158:3001/api/login', {
     method: 'POST',
+    credentials: 'include',
     headers: {
       "Content-Type": "application/json",
     },
@@ -75,6 +59,6 @@ const handleLogin = () => {
     <input type="password" placeholder="密码" v-model="password">
     <button @click="handleLogin">登录</button>
   </div>
-  <div id="editor"></div>
+  <MdEditor v-model="text" @onUploadImg="customUpload"/>
 </template>
 <style scoped lang='scss'></style>
