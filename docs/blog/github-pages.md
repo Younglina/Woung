@@ -5,7 +5,7 @@ date: '2022-03-11'
 categories:
  - 文档
 tags:
- - 记录
+ - vuepress
  - github pages
 ---
 # vuepress配置github pages域名访问

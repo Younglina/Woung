@@ -1,16 +1,15 @@
 <script setup>
 import { data as posts } from './docs.data.js'
-import { VPHomeFeatures } from 'vitepress/theme'
-console.log(posts)
+import VPFeatures from './VPFeatures.vue'
 const features = posts.map(item=>{
   return {
-    title: item.frontmatter.title,
-    details: item.frontmatter.date,
-    link: item.url
+    ...item.frontmatter,
+    link: item.url,
   }
-})
+}).filter(item=>item.title)
+console.log(posts, features)
 </script>
 <template>
-  <VPHomeFeatures :features="features"/>
+  <VPFeatures :features="features"/>
 </template>
 <style scoped lang='scss'></style>

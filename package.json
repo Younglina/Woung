@@ -9,6 +9,8 @@
     "vitepress": "1.0.0-rc.25"
   },
   "dependencies": {
+    "@wangeditor/editor": "^5.1.23",
+    "@wangeditor/editor-for-vue": "^5.1.12",
     "lxgw-wenkai-screen-webfont": "^1.7.0"
   }
 }

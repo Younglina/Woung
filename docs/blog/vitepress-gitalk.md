@@ -5,8 +5,8 @@ author: Younglina
 categories:
  - 文档
 tags:
- - 记录
  - vitepress
+ - gitalk
 ---
 # vitepress配置评论(gitalk)
 因为VitePress没有像VuePress那样的可以直接安装配置的评论插件，所以就需要自己动手，这里使用gitalk作为插件使用。

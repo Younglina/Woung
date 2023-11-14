@@ -4,9 +4,8 @@ author: Younglina
 date: '2023-03-09'
 showAccessNumber: true
 categories:
- - 文档
+ - 项目
 tags:
- - 记录
  - Vue3
 ---
 # vue3开发景德镇当地特色浏览网站
