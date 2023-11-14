@@ -11,22 +11,22 @@ hero:
   actions:
     - theme: brand
       text: 开始
-      link: /markdown-examples
+      link: /projects/vue3-jdz
     - theme: alt
       text: 源码
-      link: /api-examples
+      link: https://github.com/Younglina/Woung
   image:
     src: /Woung.svg
     alt: Woung
 
-features:
-  - icon: 📝
-    title: 技术文档
-    details: 记录一些技术相关的
-  - title: Feature B
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
-  - title: Feature C
-    details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+# features:
+#   - icon: 📝
+#     title: 技术文档
+#     details: 记录一些技术相关的
+#   - title: Feature B
+#     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
+#   - title: Feature C
+#     details: Lorem ipsum dolor sit amet, consectetur adipiscing elit
 ---
 
 <style>
