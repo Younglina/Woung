@@ -1,52 +1,80 @@
 <script setup>
-import '@wangeditor/editor/dist/css/style.css' // 引入 css
-import { onBeforeUnmount, ref, shallowRef, onMounted } from 'vue'
-import { Editor, Toolbar } from '@wangeditor/editor-for-vue'
+import '@toast-ui/editor/dist/toastui-editor.css';
+import Editor from '@toast-ui/editor';
+import { ref, onMounted } from 'vue';
 
-// 编辑器实例，必须用 shallowRef
-const editorRef = shallowRef()
+const editor = ref('')
 
-// 内容 HTML
-const valueHtml = ref('<p>hello</p>')
+onMounted(()=>{
+  editor.value = new Editor({
+  el: document.querySelector('#editor'),
+  height: '500px',
+  initialEditType: 'markdown',
+  previewStyle: 'vertical',
+  hooks: {
+    addImageBlobHook: customUpload
+  }
+});
 
-// 模拟 ajax 异步获取内容
-onMounted(() => {
-    setTimeout(() => {
-        valueHtml.value = '<p>模拟 Ajax 异步设置内容</p>'
-    }, 1500)
+editor.value.getMarkdown();
+
 })
 
-const toolbarConfig = {}
-const editorConfig = { placeholder: '请输入内容...' }
-
-// 组件销毁时，也及时销毁编辑器
-onBeforeUnmount(() => {
-    const editor = editorRef.value
-    if (editor == null) return
-    editor.destroy()
-})
-
-const handleCreated = (editor) => {
-  editorRef.value = editor // 记录 editor 实例，重要！
+function customUpload(file, callback) {
+  console.log(file)
+  const formData = new FormData();
+  formData.append('file', file);
+  formData.append('filename', Date.now() + '_' + file.name);
+  // fetch('http://localhost:3001/api/upload', {
+  fetch('http://121.40.220.158:3001/api/upload', {
+    method: 'POST',
+    credentials: 'include',
+    body: formData,
+  }).then(response => {
+    // 检查响应的状态码
+    if (response.ok) {
+      // 解析响应的JSON数据
+      return response.json();
+    } else {
+      // 处理错误状态码
+      throw new Error('Request failed with status ' + response.status);
+    }
+  })
+    .then(res => {
+      // 处理解析后的数据
+      res.data.map(item => {
+        callback(item.url)
+      })
+    })
+    .catch(error => {
+      // 处理捕获的错误
+      console.error(error);
+    });
+}
+const username = ref('')
+const password = ref('')
+const handleLogin = () => {
+  // fetch('http://localhost:3001/api/login', {
+    fetch('http://121.40.220.158:3001/api/login', {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      username: username.value,
+      password: password.value
+    })
+  }).then(function (res) {
+    console.log(res)
+  })
 }
 </script>
 <template>
-  <div style="border: 1px solid #ccc">
-    <Toolbar
-      style="border-bottom: 1px solid #ccc"
-      :editor="editorRef"
-      :defaultConfig="toolbarConfig"
-      :mode="mode"
-    />
-    <Editor
-      style="height: 500px; overflow-y: hidden;"
-      v-model="valueHtml"
-      :defaultConfig="editorConfig"
-      :mode="mode"
-      @onCreated="handleCreated"
-    />
+  <div>
+    <input type="text" placeholder="用户名" v-model="username">
+    <input type="password" placeholder="密码" v-model="password">
+    <button @click="handleLogin">登录</button>
   </div>
+  <div id="editor"></div>
 </template>
-<style scoped lang='scss'>
-
-</style>
+<style scoped lang='scss'></style>
