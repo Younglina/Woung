@@ -1,7 +1,7 @@
 ---
 title: vitepress中实现在线编写
 author: Younglina
-date:  2023-11-15
+date: '2023-11-15'
 categories:
 - 文档
 tags:
