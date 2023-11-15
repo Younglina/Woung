@@ -9,8 +9,8 @@ function customUpload(file, callback) {
   const formData = new FormData();
   formData.append('file', file[0]);
   formData.append('filename', Date.now() + '_' + file[0].name);
-  fetch('http://localhost:3001/api/upload', {
-    // fetch('http://121.40.220.158:3001/api/upload', {
+  fetch('http://localhost:3001/web/upload', {
+    // fetch('http://121.40.220.158:3001/web/upload', {
     method: 'POST',
     credentials: 'include',
     body: formData,
@@ -39,8 +39,8 @@ const loginLoading = ref(false)
 const isLogin = ref(0)
 const handleLogin = () => {
   loginLoading.value = true
-  fetch('http://localhost:3001/api/login', {
-    // fetch('http://121.40.220.158:3001/api/login', {
+  // fetch('http://localhost:3001/api/login', {
+    fetch('http://121.40.220.158:3001/api/login', {
     method: 'POST',
     credentials: 'include',
     headers: {
@@ -77,8 +77,8 @@ const content = ref('# Hello Editor');
 const text = ref('')
 const link = ref('')
 const handleSave = () => {
-  fetch('http://localhost:3001/web/blog', {
-    // fetch('http://121.40.220.158:3001/api/save', {
+  // fetch('http://localhost:3001/web/blog', {
+    fetch('http://121.40.220.158:3001/web/blog', {
     method: 'POST',
     credentials: 'include',
     headers: {
