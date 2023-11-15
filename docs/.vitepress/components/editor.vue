@@ -1,16 +1,17 @@
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, computed } from 'vue';
 import { MdEditor } from 'md-editor-v3';
 import 'md-editor-v3/lib/style.css';
+import { useData } from 'vitepress'
 
-
+const theme = computed(()=>useData().isDark.value ? 'dark' : 'light')
 function customUpload(file, callback) {
   console.log(file)
   const formData = new FormData();
   formData.append('file', file[0]);
   formData.append('filename', Date.now() + '_' + file[0].name);
-  // fetch('http://localhost:3001/web/upload', {
-    fetch('http://121.40.220.158:3001/web/upload', {
+  fetch('http://localhost:3001/web/upload', {
+    // fetch('http://121.40.220.158:3001/web/upload', {
     method: 'POST',
     credentials: 'include',
     body: formData,
@@ -39,8 +40,8 @@ const loginLoading = ref(false)
 const isLogin = ref(0)
 const handleLogin = () => {
   loginLoading.value = true
-  // fetch('http://localhost:3001/api/login', {
-    fetch('http://121.40.220.158:3001/api/login', {
+  fetch('http://localhost:3001/api/login', {
+    // fetch('http://121.40.220.158:3001/api/login', {
     method: 'POST',
     credentials: 'include',
     headers: {
@@ -77,8 +78,8 @@ const content = ref('# Hello Editor');
 const text = ref('')
 const link = ref('')
 const handleSave = () => {
-  // fetch('http://localhost:3001/web/blog', {
-    fetch('http://121.40.220.158:3001/web/blog', {
+  fetch('http://localhost:3001/web/blog', {
+    // fetch('http://121.40.220.158:3001/web/blog', {
     method: 'POST',
     credentials: 'include',
     headers: {
@@ -123,8 +124,8 @@ const handleSave = () => {
       <input type="text" placeholder="标题" v-model="text">
       <input type="text" placeholder="link" v-model="link">
     </div>
-    <MdEditor v-model="content" @onUploadImg="customUpload" />
-    <button @click="handleSave">保存</button>
+    <MdEditor v-model="content" @onUploadImg="customUpload" :theme="theme"/>
+    <button class="save-btn" @click="handleSave">保存</button>
   </div>
 </template>
 <style scoped>
@@ -135,29 +136,34 @@ const handleSave = () => {
 }
 
 .editor input {
-  display: inline-block;
   font-size: 14px;
+  -webkit-appearance: none;
+  background-color: var(--vp-c-bg);
+  background-image: none;
   border-radius: 4px;
+  border: 1px solid var(--vp-c-gray-3);
   box-sizing: border-box;
+  color: var(--vp-c-gray-3);
+  display: inline-block;
+  font-size: inherit;
   height: 26px;
   line-height: 26px;
   outline: none;
   padding: 0 15px;
+  transition: border-color .2s cubic-bezier(.645,.045,.355,1);
   margin-right: 6px;
   width: 180px;
 }
 
 .editor button {
-  color: #fff;
-  background-color: #409eff;
-  border-color: #409eff;
+  color: var(--vp-c-text-2);
+  background-color: var(--vp-c-bg) !important;
   display: inline-block;
   line-height: 1;
   white-space: nowrap;
   cursor: pointer;
   background: #fff;
-  border: 1px solid #dcdfe6;
-  color: #606266;
+  border: 1px solid var(--vp-c-gray-3);
   -webkit-appearance: none;
   text-align: center;
   box-sizing: border-box;
@@ -172,5 +178,9 @@ const handleSave = () => {
   font-size: 14px;
   border-radius: 4px;
   margin-right: 6px;
+}
+.save-btn{
+  float: right;
+  margin-top: 10px;
 }
 </style>

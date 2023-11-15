@@ -6,7 +6,7 @@ export default defineConfig({
   title: "Woung",
   description: "woung vitepress blog",
   base: '/Woung', //根目录 如果您计划将站点部署到https://foo.github.io/bar/，那么您应该将base设置为“/bar/”
-  head: [['link', { rel: 'icon', href: '/Woung.svg' }]],
+  head: [['link', { rel: 'icon', href: '/Woung/Woung.svg' }]],
   themeConfig: {
     logo: { src: '/Woung.svg', width: 24, height: 24 },
     outline: {
