@@ -4,7 +4,7 @@ import VPFeatures from './VPFeatures.vue'
 const features = posts.map(item=>{
   return {
     ...item.frontmatter,
-    link: item.url,
+    link: '/Woung'+item.url,
   }
 }).filter(item=>item.title)
 console.log(posts, features)
