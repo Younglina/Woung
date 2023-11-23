@@ -28,6 +28,10 @@
           {
             "text": "vitepress中实现在线编写",
             "link": "vitepress-online"
+          },
+          {
+            "text": "微信公众号自动回复",
+            "link": "weixin-public"
           }
         ]
       }

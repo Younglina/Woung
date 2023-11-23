@@ -7,7 +7,6 @@ const features = posts.map(item=>{
     link: '/Woung'+item.url,
   }
 }).filter(item=>item.title)
-console.log(posts, features)
 </script>
 <template>
   <VPFeatures :features="features"/>
