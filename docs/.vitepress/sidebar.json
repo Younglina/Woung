@@ -32,6 +32,10 @@
           {
             "text": "微信公众号自动回复",
             "link": "weixin-public"
+          },
+          {
+            "text": "相对完整的Koa项目配置",
+            "link": "koa-project"
           }
         ]
       }
