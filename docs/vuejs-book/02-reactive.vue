@@ -1,7 +1,7 @@
 <template>
   <fieldset>
     <legend>结果演示</legend>
-    <div id="demo"></div>
+    <div id="demo2"></div>
   </fieldset>
 </template>
 
@@ -11,10 +11,13 @@ import { onMounted } from 'vue'
 onMounted(() => {
   const bucket = new Set()
   const data = { text: 'hello world' }
+  let activeEffect // [!code ++]
 
   const obj = new Proxy(data, {
     get(target, key) {
-      bucket.add(effect)
+      if (activeEffect) { // [!code ++]
+        bucket.add(activeEffect) // [!code ++]
+      } // [!code ++]
       return target[key]
     },
     set(target, key, newVal) {
@@ -24,14 +27,21 @@ onMounted(() => {
     }
   })
 
-  function effect() {
-    document.querySelector('#demo').innerText = obj.text
+  function effect(fn) {
+    activeEffect = fn
+    fn()
   }
 
-  effect() // 触发读取
+  effect(() => {
+    // 输出两次
+    console.log('effect run')
+    document.querySelector('#demo2').innerText = obj.text
+  }) // 触发读取
   // 修改响应式数据
   setTimeout(() => {
-    obj.text = 'hello vue3'
+    // obj.text = 'hello vue3' // [!code --]
+    // 设置不存在的属性
+    obj.notExist = 'hello vue3' // [!code ++]
   }, 1000)
 
 })
