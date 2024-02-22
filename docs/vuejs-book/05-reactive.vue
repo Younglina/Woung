@@ -11,8 +11,9 @@ import { onMounted } from 'vue'
 onMounted(() => {
   // 使用WeakMap 代替 Set 作为桶的数据结构
   const bucket = new WeakMap()
-  const data = { text: 'hello world', ok: true }
+  const data = { foo: 'foo', bar: 'bar', var: 1 }
   let activeEffect
+  const effectStack = []  // [!code ++]
 
   const obj = new Proxy(data, {
     // 拦截读取操作
@@ -59,17 +60,26 @@ onMounted(() => {
     if (!depsMap) return
     // 根据 key 取得所有副作用函数 effects
     const effects = depsMap.get(key)
-    // 执行副作用函数
-    // effects && effects.forEach(fn => fn()) // [!code --]
-    const effectsToRun = new Set(effects) // [!code ++]
-    effectsToRun.forEach(fn => fn()) // [!code ++]
+    // 执行副作用函数 避免无限循环
+    const effectsToRun = new Set()
+    effects && effects.forEach(fn => {  // [!code ++]
+      if (fn !== activeEffect) {  // [!code ++]
+        effectsToRun.add(fn)  // [!code ++]
+      }  // [!code ++]
+    })  // [!code ++]
+    effectsToRun.forEach(fn => fn())
   }
 
   function effect(fn) {
     const effectFn = () => {
       cleanup(effectFn)
       activeEffect = effectFn
+      // 在调用副作用函数之前将当前副作用函数压入栈中
+      effectStack.push(activeEffect)  // [!code ++]
       fn()
+      // 在当前副作用函数执行完毕后，将当前副作用函数弹出栈，并把 activeEffect 还原为之前的值
+      effectStack.pop()  // [!code ++]
+      activeEffect = effectStack.at(-1)  // [!code ++]
     }
     effectFn.deps = []
     effectFn()
@@ -83,15 +93,24 @@ onMounted(() => {
     effectFn.deps.length = 0
   }
 
+  effect(function effectFn1() {
+    console.log('effectFn1 执行')
+    effect(function effectFn2() {
+      console.log('effectFn2 执行')
+      // 在 effectFn2 中读取 obj.bar 属性
+      let temp2 = obj.bar
+    })
+    // 在 effectFn1 中读取 obj.foo 属性
+    let temp1 = obj.foo
+  })
   effect(() => {
-    console.log('effect run4')
-    document.querySelector('#demo4').innerText = obj.ok ? obj.text : 'not'
-  }) // 触发读取
+    console.log('obj.var++')
+    obj.var++
+  })
   // 修改响应式数据
   setTimeout(() => {
-    obj.ok = false
-  }, 1000)
-  setTimeout(() => {
+    // obj.foo = 'asdf'
+    obj.bar = 'asdf'
   }, 1000)
 
 })
