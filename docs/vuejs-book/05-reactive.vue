@@ -67,7 +67,15 @@ onMounted(() => {
         effectsToRun.add(fn)  // [!code ++]
       }  // [!code ++]
     })  // [!code ++]
-    effectsToRun.forEach(fn => fn())
+    effectsToRun.forEach(fn => {
+      // 如果一个副作用函数存在调度器，则调用该调度器，并将副作用函数作为参数传递
+      if (fn.options.scheduler) { // 新增
+        fn.options.scheduler(fn) // 新增
+      } else {
+        // 否则直接执行副作用函数（之前的默认行为）
+        fn() // 新增
+      }
+    })
   }
 
   function effect(fn) {
