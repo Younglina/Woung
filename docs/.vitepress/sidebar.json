@@ -36,6 +36,24 @@
           {
             "text": "相对完整的Koa项目配置",
             "link": "koa-project"
+          },
+          {
+            "text": "Typora+PicGo搭建Gitee图床",
+            "link": "typora-picgo-gitee"
+          }
+        ]
+      }
+    ]
+  },
+  "/child/": {
+    "base": "/child/",
+    "items": [
+      {
+        "text": "少儿编程",
+        "items": [
+          {
+            "text": "少儿编程Scratch入门项目-迷宫寻宝",
+            "link": "labyrinth-treasure-hunt"
           }
         ]
       }
