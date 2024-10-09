@@ -54,6 +54,18 @@
           {
             "text": "少儿编程Scratch入门项目-迷宫寻宝",
             "link": "labyrinth-treasure-hunt"
+          },
+          {
+            "text": "少儿编程Scratch入门项目-打地鼠",
+            "link": "whack-mole"
+          },
+          {
+            "text": "少儿编程Scratch入门项目-抓海星",
+            "link": "hunt-seastar"
+          },
+          {
+            "text": "少儿编程Scratch中级项目-飞翔小鸟",
+            "link": "flappy-brid"
           }
         ]
       }
